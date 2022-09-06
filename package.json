@@ -1,0 +1,22 @@
+{
+  "name": "express_intro",
+  "version": "1.0.0",
+  "description": "ExpressIntro Part 1: - Create a new github repo called ExpressIntro, clone the repo to your computer and add the link to populi. - In the ExpressIntro folder do the following:   - Initialize the folder as an npm project via 'npm init' \t\t- *Note*: When you run 'npm init', you will be shown several prompts in the terminal that will help you create the package.json file. You do not need to worry about these and can press 'enter' through all the prompts.   - Install express as a dependency via 'npm i express' - Create a new file app.js in the folder and copy the example code from the express starter docs into it: https://expressjs.com/en/starter/hello-world.html - Run the command node app.js - Navigate to http://localhost:3000 to see 'Hello World' in the browser.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BrennanStopnik/Express_Intro.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/BrennanStopnik/Express_Intro/issues"
+  },
+  "homepage": "https://github.com/BrennanStopnik/Express_Intro#readme",
+  "dependencies": {
+    "express": "^4.18.1"
+  }
+}
