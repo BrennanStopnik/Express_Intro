@@ -16,7 +16,7 @@ const todays_date = new Date()
 // Variables for the movie list
 let favoriteMovieList = ['Fight Club', 'The Big Lebowski', 'Pulp Fiction', 'Old School'];
 let newMovie = null;
-let moviesString = favoriteMovieList.join(', ');
+// let moviesString = favoriteMovieList.join(', ');
 
 // Global variables for getting the first and last name through the website
 let queryFirstName = null;
