@@ -7,6 +7,9 @@ const app = express()
 // Picking a port to operate through
 const port = 3000
 
+// My name
+const myName = "Brennan Stopnik"
+
 // Getting today's date using Date()
 const todays_date = new Date()
 
@@ -25,7 +28,7 @@ let queryLastName = null;
 
 // Printing name and date to the website
 app.get('/', (req, res) => {
-    res.send(`My name is Brennan Stopnik. Today's date is: ${todays_date}`);
+    res.send(`My name is ${myName}. Today's date is: ${todays_date}`);
 })
 
 // Getting the first and last names
