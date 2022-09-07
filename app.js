@@ -1,11 +1,16 @@
 // This code activates express.js
 const express = require('express')
+const bodyParser = require('body-parser')
 
-// This makes it into the app variable below.
+// Initializing app and selecting port
 const app = express()
-
-// Picking a port to operate through
 const port = 3000
+
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }))
+
+// parse application/json
+app.use(bodyParser.json())
 
 // My name
 const myName = "Brennan Stopnik"
@@ -32,7 +37,7 @@ app.get('/', (req, res) => {
 })
 
 // Getting the first and last names
-app.get('/get-user-info', (req, res) => {
+app.post('/get-user-info', (req, res) => {
     console.log("req.query", req.query);
     queryFirstName = req.query.firstName;
     queryLastName = req.query.lastName;
@@ -54,6 +59,11 @@ app.get('/add-movie', (req, res) => {
     newMovie = req.query.movie;
     favoriteMovieList.push(newMovie);
     res.send(`${newMovie}`)
+})
+
+app.get("/single-movie/:movieName", (req, res) => {
+    console.log("req.params", req.params)
+    res.send("")
 })
 
 // Our port listener
