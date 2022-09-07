@@ -19,7 +19,7 @@ const myName = "Brennan Stopnik"
 const todays_date = new Date()
 
 // Variables for the movie list
-let favoriteMovieList = ['Fight Club', 'The Big Lebowski', 'Pulp Fiction', 'Old School'];
+
 let newMovie = null;
 // let moviesString = favoriteMovieList.join(', ');
 
@@ -49,22 +49,77 @@ app.get('/show-user-info', (req, res) => {
     res.send(`Showing user Info => Name: ${queryFirstName} ${queryLastName}.`)
 })
 
+
+const favoriteMovieList = ['Fight Club', 'The Big Lebowski', 'Pulp Fiction', 'Old School'];
+// Create
+app.post("/new-movie", (req, res) => {
+    console.log(req.body)
+
+    const newMovieTitle = req.body.title
+    favoriteMovieList.push(newMovieTitle)
+
+    res.json({
+        success: true
+    })  
+})
+
+// Read
+app.get("/all-movies", (req, res) => {
+    res.json(favoriteMovieList)
+})
+
+// Update
+app.put("/update-movie/:titleUpdate", (req, res) => {
+    console.log("req params", req.params)
+
+    const titleUpdate = req.params.titleUpdate
+    const newTitle = req.body.newTitle
+
+    console.log(titleUpdate)
+    console.log(newTitle)
+
+    const indexOfMovie = favoriteMovieList.indexOf(titleUpdate)
+    console.log(indexOfMovie)
+
+    favoriteMovieList[indexOfMovie] = newTitle
+    console.log(favoriteMovieList)
+
+    res.json({
+        success: true
+    })
+})
+
+// Delete 
+app.delete("/delete-movie/:titleDelete", (req, res) => {
+    const titleDelete = req.params.titleDelete
+    const indexOfMovie = favoriteMovieList.indexOf(titleDelete)
+
+    console.log("Before Delete ", favoriteMovieList)
+    favoriteMovieList.splice(indexOfMovie, 1)
+    console.log("After Delete ", favoriteMovieList)
+
+    res.json({
+        hasBeenDeleted: true
+    })
+})
+
+
 // Sending the concatenated movie list 
-app.get('/list-movies', (req, res) => {
-    let moviesString = favoriteMovieList.join(', ');
-    res.send(`Here is my movies string: ${moviesString}.`);
-})
+// app.get('/list-movies', (req, res) => {
+//     let moviesString = favoriteMovieList.join(', ');
+//     res.send(`Here is my movies string: ${moviesString}.`);
+// })
 
-app.get('/add-movie', (req, res) => {
-    newMovie = req.query.movie;
-    favoriteMovieList.push(newMovie);
-    res.send(`${newMovie}`)
-})
+// app.get('/add-movie', (req, res) => {
+//     newMovie = req.query.movie;
+//     favoriteMovieList.push(newMovie);
+//     res.send(`${newMovie}`)
+// })
 
-app.get("/single-movie/:movieName", (req, res) => {
-    console.log("req.params", req.params)
-    res.send("")
-})
+// app.get("/single-movie/:movieName", (req, res) => {
+//     console.log("req.params", req.params)
+//     res.send("")
+// })
 
 // Our port listener
 app.listen(port, () => {
