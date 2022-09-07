@@ -94,6 +94,13 @@ app.delete("/delete-movie/:titleDelete", (req, res) => {
     const titleDelete = req.params.titleDelete
     const indexOfMovie = favoriteMovieList.indexOf(titleDelete)
 
+    if (indexOfMovie < 0) {
+        res.json({
+            hasBeenDeleted: false
+        })
+        return;
+    }
+
     console.log("Before Delete ", favoriteMovieList)
     favoriteMovieList.splice(indexOfMovie, 1)
     console.log("After Delete ", favoriteMovieList)
