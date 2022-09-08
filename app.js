@@ -83,9 +83,7 @@ const favoriteMovieList = [{
 
 // Create
 app.post("/new-movie", (req, res) => {
-
     console.log("POST to /new-movie")
-
     console.log(req.body)
 
     const newMovie = {
@@ -96,9 +94,7 @@ app.post("/new-movie", (req, res) => {
         lastModified: new Date()
     }
 
-
-    // if (!req.body.isRecommended)
-    if (req.body.title === undefined) {
+    if (req.body.title  === undefined) {
         res.json({
             success: false,
             message: "title is a required field"
@@ -143,37 +139,83 @@ app.get("/all-movies", (req, res) => {
     res.json(favoriteMovieList)
 })
 
+app.get("/single-movie/:titleToFind", (req, res) => {
+    const titleToFind = req.params.titleToFind
+
+    const foundMovieIndex = favoriteMovieList.findIndex((movie)=>{
+        if (movie.title === titleToFind) {
+            return true
+        } else {
+            return false
+        }
+    })
+
+    const foundMovie = favoriteMovieList[foundMovieIndex]
+
+    res.json(foundMovie)
+
+})
+
 // Update
 app.put("/update-movie/:titleUpdate", (req, res) => {
-
     console.log("PUT to /update-movie")
-
     console.log("req params", req.params)
 
     const titleUpdate = req.params.titleUpdate
-    const newTitle = req.body.newTitle
+
+    const originalMovieIndex = favoriteMovieList.findIndex((movie)=>{
+        if (movie.title === req.params.titleUpdate) {
+            return true
+        } else {
+            return false
+        }
+    })
+
+    const originalMovie = favoriteMovieList[originalMovieIndex]
+
+    const updatedMovie = {
+        title: originalMovie.title,
+        starRating: originalMovie.starRating,
+        isRecommended: originalMovie.isRecommended,
+        createdAt: originalMovie.createdAt,
+        lastModified: new Date()
+    }
+
+    if (req.body.title !== undefined) {
+        updatedMovie.title = req.body.title
+    }
+    if (req.body.starRating !== undefined) {
+        updatedMovie.starRating = req.body.starRating
+    }
+    if (req.body.isRecommended !== undefined) {
+        updatedMovie.isRecommended = req.body.isRecommended
+    }
 
     console.log(titleUpdate)
-    console.log(newTitle)
-
-    const indexOfMovie = favoriteMovieList.indexOf(titleUpdate)
-    console.log(indexOfMovie)
-
-    favoriteMovieList[indexOfMovie] = newTitle
-    console.log(favoriteMovieList)
+    favoriteMovieList[originalMovieIndex] = updatedMovie
 
     res.json({
         success: true
     })
+
+    
 })
 
 // Delete 
 app.delete("/delete-movie/:titleDelete", (req, res) => {
-
     console.log("DELETE to /delete-movie")
 
     const titleDelete = req.params.titleDelete
-    const indexOfMovie = favoriteMovieList.indexOf(titleDelete)
+    
+    const indexOfMovie = favoriteMovieList.findIndex((movie)=>{
+        if (movie.title === titleDelete) {
+            return true
+        } else {
+            return false
+        }
+    })
+
+    console.log("index of movie", indexOfMovie)
 
     if (indexOfMovie < 0) {
         res.json({
@@ -190,24 +232,6 @@ app.delete("/delete-movie/:titleDelete", (req, res) => {
         hasBeenDeleted: true
     })
 })
-
-
-// Sending the concatenated movie list 
-// app.get('/list-movies', (req, res) => {
-//     let moviesString = favoriteMovieList.join(', ');
-//     res.send(`Here is my movies string: ${moviesString}.`);
-// })
-
-// app.get('/add-movie', (req, res) => {
-//     newMovie = req.query.movie;
-//     favoriteMovieList.push(newMovie);
-//     res.send(`${newMovie}`)
-// })
-
-// app.get("/single-movie/:movieName", (req, res) => {
-//     console.log("req.params", req.params)
-//     res.send("")
-// })
 
 // Our port listener
 app.listen(port, () => {
