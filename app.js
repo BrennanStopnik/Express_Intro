@@ -50,13 +50,85 @@ app.get('/show-user-info', (req, res) => {
 })
 
 
-const favoriteMovieList = ['Fight Club', 'The Big Lebowski', 'Pulp Fiction', 'Old School'];
+/* 
+Movie stuff for the assignments
+*/
+
+const favoriteMovieList = [{
+    title: "Fight Club",
+    starRating: 5,
+    isRecommended: true,
+    createdAt: new Date(),
+    lastModified: new Date()
+}, {
+    title: "The Big Lebowski",
+    starRating: 5,
+    isRecommended: true,
+    createdAt: new Date(),
+    lastModified: new Date()
+}, {
+    title: "Pulp Fiction",
+    starRating: 5,
+    isRecommended: true,
+    createdAt: new Date(),
+    lastModified: new Date()
+}, {
+    title: "Old School",
+    starRating: 5,
+    isRecommended: true,
+    createdAt: new Date(),
+    lastModified: new Date()
+}];
+
+
 // Create
 app.post("/new-movie", (req, res) => {
+
+    console.log("POST to /new-movie")
+
     console.log(req.body)
 
-    const newMovieTitle = req.body.title
-    favoriteMovieList.push(newMovieTitle)
+    const newMovie = {
+        title: "",
+        starRating: 0,
+        isRecommended: false,
+        createdAt: new Date(),
+        lastModified: new Date()
+    }
+
+
+    // if (!req.body.isRecommended)
+    if (req.body.title === undefined) {
+        res.json({
+            success: false,
+            message: "title is a required field"
+        })
+        return;
+    } else { 
+        newMovie.title = req.body.title
+    }
+
+    if (req.body.starRating === undefined) {
+        res.json({
+            success: false,
+            message: "starRating is a required field"
+        })
+        return;
+    } else { 
+        newMovie.starRating = req.body.starRating
+    }
+
+    if (req.body.isRecommended === undefined) {
+        res.json({
+            success: false,
+            message: "isRecommended is a required field"
+        })
+        return;
+    } else { 
+        newMovie.isRecommended = req.body.isRecommended
+    }
+
+    favoriteMovieList.push(newMovie)
 
     res.json({
         success: true
@@ -65,11 +137,17 @@ app.post("/new-movie", (req, res) => {
 
 // Read
 app.get("/all-movies", (req, res) => {
+
+    console.log("GET to /all-movies")
+
     res.json(favoriteMovieList)
 })
 
 // Update
 app.put("/update-movie/:titleUpdate", (req, res) => {
+
+    console.log("PUT to /update-movie")
+
     console.log("req params", req.params)
 
     const titleUpdate = req.params.titleUpdate
@@ -91,6 +169,9 @@ app.put("/update-movie/:titleUpdate", (req, res) => {
 
 // Delete 
 app.delete("/delete-movie/:titleDelete", (req, res) => {
+
+    console.log("DELETE to /delete-movie")
+
     const titleDelete = req.params.titleDelete
     const indexOfMovie = favoriteMovieList.indexOf(titleDelete)
 
